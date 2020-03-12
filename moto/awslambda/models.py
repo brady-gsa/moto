@@ -156,6 +156,7 @@ class LambdaFunction(BaseModel):
         self.code = spec["Code"]
         self.function_name = spec["FunctionName"]
         self.handler = spec["Handler"]
+        self.kms_key_arn = spec.get("KMSKeyArn","")
         self.role = spec["Role"]
         self.run_time = spec["Runtime"]
         self.logs_backend = logs_backends[self.region]
@@ -268,6 +269,7 @@ class LambdaFunction(BaseModel):
             "FunctionArn": self.function_arn,
             "FunctionName": self.function_name,
             "Handler": self.handler,
+            "KMSKeyArn": self.kms_key_arn,
             "LastModified": self.last_modified,
             "MemorySize": self.memory_size,
             "Role": self.role,

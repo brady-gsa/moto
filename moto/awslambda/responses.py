@@ -131,6 +131,8 @@ class LambdaResponse(BaseResponse):
         self.setup_class(request, full_url, headers)
         if request.method == "PUT":
             return self._put_configuration(request)
+        elif request.method == "GET":
+            return self._get_configuration(request)
         else:
             raise ValueError("Cannot handle request")
 
@@ -340,6 +342,18 @@ class LambdaResponse(BaseResponse):
         function_name = self.path.rsplit("/", 2)[-2]
         qualifier = self._get_param("Qualifier", None)
         resp = self.lambda_backend.update_function_configuration(
+            function_name, qualifier, body=self.json_body
+        )
+
+        if resp:
+            return 200, {}, json.dumps(resp)
+        else:
+            return 404, {}, "{}"
+
+    def _get_configuration(self, request):
+        function_name = self.path.rsplit("/", 2)[-2]
+        qualifier = self._get_param("Qualifier", None)
+        resp = self.lambda_backend.get_configuration(
             function_name, qualifier, body=self.json_body
         )
 
