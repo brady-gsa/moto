@@ -353,8 +353,8 @@ class LambdaResponse(BaseResponse):
     def _get_configuration(self, request):
         function_name = self.path.rsplit("/", 2)[-2]
         qualifier = self._get_param("Qualifier", None)
-        resp = self.lambda_backend.get_configuration(
-            function_name, qualifier, body=self.json_body
+        resp = self.lambda_backend.get_function_configuration(
+            function_name, qualifier
         )
 
         if resp:

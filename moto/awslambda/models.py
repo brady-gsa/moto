@@ -1041,6 +1041,11 @@ class LambdaBackend(BaseBackend):
 
         return fn.update_configuration(body) if fn else None
 
+    def get_function_configuration(self, function_name, qualifier):
+        fn = self.get_function(function_name, qualifier)
+
+        return fn.get_configuration() if fn else None
+
     def invoke(self, function_name, qualifier, body, headers, response_headers):
         fn = self.get_function(function_name, qualifier)
         if fn:
